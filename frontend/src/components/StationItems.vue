@@ -29,8 +29,9 @@
         </template>
         <v-data-table :headers="headers" :items="items">
           <template slot="items" slot-scope="props">
+            <td>Checkbox</td>
             <td>{{ props.item.description }}</td>
-            <td>{{ props.item.type }}</td>
+            <td>Actions Coming Soon</td>
           </template>
         </v-data-table>
     </v-card>
@@ -38,7 +39,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { readItems } from '@/store/admin/getters';
+import { readStationItems } from '@/store/admin/getters';
 import { IItemCreate, IStation } from '@/interfaces';
 import { dispatchGetItems, dispatchCreateItem } from '@/store/admin/actions';
 
@@ -51,13 +52,13 @@ export default class StationItems extends Vue {
 
     public headers = [
     {
-      text: 'Item Description',
+      text: 'Item Type',
       sortable: true,
       value: 'description',
       align: 'left',
     },
     {
-      text: 'Item Type',
+      text: 'Item Description',
       sortable: true,
       value: 'description',
       align: 'left',
@@ -78,7 +79,7 @@ export default class StationItems extends Vue {
     //   {type: 'Checkbox', description: 'Make the beds'},
     //   {type: 'Photo', description: 'Pictures of the sink'},
     // ];
-    return readItems(this.$store);
+    return readStationItems(this.$store)(+this.stationId);
   }
   public async submit() {
       const item: IItemCreate = {

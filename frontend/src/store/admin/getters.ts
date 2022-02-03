@@ -31,6 +31,10 @@ export const getters = {
             return { ...filteredItems[0] };
         }
     },
+    stationItems: (state: AdminState) => (stationId: number) => {
+        const filteredItems = state.items.filter((item) => item.station_id === stationId);
+        return filteredItems;
+    },
 };
 
 const { read } = getStoreAccessors<AdminState, State>('');
@@ -40,6 +44,7 @@ export const readProperties = read(getters.properties);
 
 export const readOneItem = read(getters.oneItem);
 export const readItems = read(getters.items);
+export const readStationItems = read(getters.stationItems);
 
 export const readOneStation = read(getters.oneStation);
 export const readStations = read(getters.stations);
