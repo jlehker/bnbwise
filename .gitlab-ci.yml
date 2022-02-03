@@ -5,55 +5,57 @@ before_script:
   - pip install docker-auto-labels
 
 stages:
-  - test
+  # - test
   - build
   - deploy
 
-tests:
-  stage: test
-  script:
-    - sh ./scripts/test.sh
-  tags:
-    - build
-    - test
+# tests:
+#   stage: test
+#   script:
+#     - sh ./scripts/test.sh
+#   tags:
+#     - build
+#     - test
 
-build-stag:
-  stage: build
-  script:
-    - TAG=stag FRONTEND_ENV=staging sh ./scripts/build-push.sh
-  only:
-    - main
-  tags:
-    - build
-    - test
+# build-stag:
+#   stage: build
+#   script:
+#     - TAG=stag FRONTEND_ENV=staging sh ./scripts/build-push.sh
+#   only:
+#     - main
+#   tags:
+#     - build
+#     - test
     
 build-prod:
   stage: build
   script:
     - TAG=prod FRONTEND_ENV=production sh ./scripts/build-push.sh
   only:
-    - production
+    - main
+#   only:
+#     - production
   tags:
     - build
     - test
 
-deploy-stag:
-  stage: deploy
-  script: 
-    - >
-      DOMAIN=stag.bnbwise.xyz
-      TRAEFIK_TAG=stag.bnbwise.xyz
-      STACK_NAME=stag-bnbwise-xyz
-      TAG=stag
-      sh ./scripts/deploy.sh
-  environment:
-    name: staging
-    url: https://stag.bnbwise.xyz
-  only:
-    - main
-  tags:
-    - swarm
-    - stag
+# deploy-stag:
+#   stage: deploy
+#   script: 
+#     - >
+#       DOMAIN=stag.bnbwise.xyz
+#       TRAEFIK_TAG=stag.bnbwise.xyz
+#       STACK_NAME=stag-bnbwise-xyz
+#       TAG=stag
+#       sh ./scripts/deploy.sh
+#   environment:
+#     name: staging
+#     url: https://stag.bnbwise.xyz
+#   only:
+#     - main
+#   tags:
+#     - swarm
+#     - stag
 
 deploy-prod:
   stage: deploy
@@ -68,7 +70,9 @@ deploy-prod:
     name: production
     url: https://bnbwise.xyz
   only:
-    - production
+    - main
+  # only:
+  #   - production
   tags:
     - swarm
     - prod
