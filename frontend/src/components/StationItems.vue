@@ -160,6 +160,7 @@ export default class StationItems extends Vue {
       'Checkbox',
       'Photo   ',
       'Textarea',
+      'Number',
     ]
   }
 }
