@@ -1,32 +1,93 @@
 <template>
-    <v-card class="ma-3 pa-3">
-        <template>
-          <v-form
-            ref="form"
-            lazy-validation
-          >
-            <v-toolbar dense>
-              <v-overflow-btn
-                :items="itemTypes"
-                label="Item Type"
-                hide-details
-                class="pa-0"
-              ></v-overflow-btn>
-              <v-text-field 
-                label="Item Description" 
-                data-vv-name="description" 
-                v-model="description"
-                data-vv-delay="100" 
-              ></v-text-field>
-              <v-spacer></v-spacer>
-              <v-btn
-                @click="submit"
+  <v-row justify="center">
+    <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">Create New Item</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
               >
-                Add Item
-              </v-btn>
-            </v-toolbar>
-         </v-form>
-        </template>
+                <v-text-field
+                  label="Item Description*"
+                  required
+                  data-vv-name="description" 
+                  v-model="description"
+                  data-vv-delay="100" 
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+                md="4"
+              >
+                <v-text-field
+                  label="Item Title"
+                  hint="I don't know this doesn't do it"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+              >
+                <v-select
+                  :items="itemTypes"
+                  label="Item Type*"
+                  required
+                ></v-select>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+              >
+                <v-checkbox
+                  v-model="itemRequired"
+                  label="Required"
+                ></v-checkbox>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*indicates required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog = false"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="submit"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-card class="ma-3 pa-3">
+      <v-toolbar light>
+        <v-toolbar-title>
+          Manage Items
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="dialog = true">New Item</v-btn>
+      </v-toolbar>
         <v-data-table :headers="headers" :items="items">
           <template slot="items" slot-scope="props">
             <td>Checkbox</td>
@@ -35,6 +96,7 @@
           </template>
         </v-data-table>
     </v-card>
+  </v-row>
 </template>
 
 <script lang="ts">
@@ -49,6 +111,8 @@ export default class StationItems extends Vue {
 
     public title: string = 'Checkbox';
     public description: string = '';
+    public itemRequired: boolean = false;
+    public dialog: boolean = false;
 
     public headers = [
     {
@@ -82,6 +146,7 @@ export default class StationItems extends Vue {
     return readStationItems(this.$store)(+this.stationId);
   }
   public async submit() {
+      this.dialog = false;
       const item: IItemCreate = {
         title: 'Checkbox',
         description: this.description,
