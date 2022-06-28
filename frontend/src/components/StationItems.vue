@@ -35,9 +35,6 @@
                   hint="I don't know this doesn't do it"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
-
-              </v-col>
               <v-col
                 cols="12"
                 sm="6"
@@ -52,9 +49,27 @@
                 cols="12"
                 sm="6"
               >
+                <v-select
+                  :items="itemGroups"
+                  label="Item Group"
+                ></v-select>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+              >
                 <v-checkbox
                   v-model="itemRequired"
                   label="Required"
+                ></v-checkbox>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="6"
+              >
+                <v-checkbox
+                  v-model="beforeAndAfter"
+                  label="Before and After"
                 ></v-checkbox>
               </v-col>
             </v-row>
@@ -162,6 +177,10 @@ export default class StationItems extends Vue {
       'Textarea',
       'Number',
     ]
+  }
+
+  get itemGroups() {
+    return Array.from(Array(10).keys());
   }
 }
 </script>
