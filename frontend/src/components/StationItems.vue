@@ -18,11 +18,9 @@
                 md="4"
               >
                 <v-text-field
-                  label="Item Description*"
+                  label="Item Title"
+                  hint="Short title (e.g. 'Mow Front Yard')"
                   required
-                  data-vv-name="description" 
-                  v-model="description"
-                  data-vv-delay="100" 
                 ></v-text-field>
               </v-col>
               <v-col
@@ -31,48 +29,35 @@
                 md="4"
               >
                 <v-text-field
-                  label="Item Title"
-                  hint="I don't know this doesn't do it"
+                  label="Item Description*"
+                  hint="Long description of (e.g. 'Collect, bag, and dispose of fallen leaves in compost bin')"
+                  required
+                  data-vv-name="description" 
+                  v-model="description"
+                  data-vv-delay="100" 
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-select
-                  :items="itemTypes"
-                  label="Item Type*"
-                  required
-                ></v-select>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-select
-                  :items="itemGroups"
-                  label="Item Group"
-                ></v-select>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-checkbox
-                  v-model="itemRequired"
-                  label="Required"
-                ></v-checkbox>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-              >
-                <v-checkbox
-                  v-model="beforeAndAfter"
-                  label="Before and After"
-                ></v-checkbox>
-              </v-col>
             </v-row>
+          </v-container>
+          <v-container>
+              <v-row v-for="(itemType,index) in itemTypes" :key="index">
+                <v-col sm="6">
+                  <v-checkbox
+                    v-model="includeFiles"
+                    hide-details
+                    class="shrink mr-2 mt-0"
+                    :label="itemType"
+                  ></v-checkbox>
+                </v-col>
+                <v-col md="6">
+                  <v-checkbox
+                    v-model="includeFiles"
+                    hide-details
+                    class="shrink mr-2 mt-0"
+                    :label="itemType + ' Required'"
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
@@ -172,10 +157,12 @@ export default class StationItems extends Vue {
 
   get itemTypes() {
     return [
-      'Checkbox',
-      'Photo   ',
-      'Textarea',
-      'Number',
+      'Before Photo',
+      'After Photo',
+      'Before Dropdown Number',
+      'After Dropdown Number',
+      'Text Area',
+      'Text Area - Feedback',
     ]
   }
 
