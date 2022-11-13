@@ -7,9 +7,10 @@ DOMAIN=${DOMAIN?Variable not set} \
 TRAEFIK_TAG=${TRAEFIK_TAG?Variable not set} \
 STACK_NAME=${STACK_NAME?Variable not set} \
 TAG=${TAG?Variable not set} \
+echo "version: '3.8'" > docker-stack.yml
 docker-compose \
 -f docker-compose.yml \
-config > docker-stack.yml
+config >> docker-stack.yml
 
 docker-auto-labels docker-stack.yml
 
